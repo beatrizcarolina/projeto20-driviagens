@@ -7,5 +7,13 @@ async function register(req,res) {
     res.sendStatus(httpStatus.CREATED);
 };
 
-export const flightsController = { register };
+async function get(req,res) {
+    const { origin, destination } = req.query;
+    const smallDate = req.query["smaller-date"];
+    const bigDate = req.query["bigger-date"];
+    const flights = await flightsService.getFlight(origin, destination, smallDate, bigDate);
+    res.status(httpStatus.OK).send(flights);
+};
+
+export const flightsController = { register, get };
 export default flightsController;
